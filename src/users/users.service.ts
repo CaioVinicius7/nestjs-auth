@@ -14,7 +14,9 @@ interface CreateUserRequest {
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<User>
+  ) {}
 
   async execute({ name, username, password }: CreateUserRequest) {
     const userAlreadyExists = await this.userModel
