@@ -1,7 +1,11 @@
 import { hash } from "bcrypt";
 import { Model } from "mongoose";
 
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 
 import { User } from "./user.schema";
@@ -12,13 +16,18 @@ interface CreateUserRequest {
   password: string;
 }
 
+interface UpdateRolesRequest {
+  userId: string;
+  roles: string[];
+}
+
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>
   ) {}
 
-  async execute({ name, username, password }: CreateUserRequest) {
+  async create({ name, username, password }: CreateUserRequest) {
     const userAlreadyExists = await this.userModel
       .findOne({
         username
@@ -42,5 +51,17 @@ export class UsersService {
     return {
       user
     };
+  }
+
+  async updateRoles({ userId, roles }: UpdateRolesRequest) {
+    const user = await this.userModel.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException("User not found.");
+    }
+
+    user.set("roles", roles);
+
+    await user.save();
   }
 }

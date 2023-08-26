@@ -1,6 +1,15 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put
+} from "@nestjs/common";
 
 import type { CreateUserDTO } from "./dto/create-user.dto";
+import type { UpdateRolesDTO } from "./dto/update-roles.dto";
 import { UsersService } from "./users.service";
 
 @Controller("/users")
@@ -9,10 +18,22 @@ export class UsersController {
 
   @Post()
   async create(@Body() { name, username, password }: CreateUserDTO) {
-    return this.usersService.execute({
+    return this.usersService.create({
       name,
       username,
       password
+    });
+  }
+
+  @Put("/:userId/roles")
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async updateRoles(
+    @Param("userId") userId: string,
+    @Body() { roles }: UpdateRolesDTO
+  ) {
+    return this.usersService.updateRoles({
+      userId,
+      roles
     });
   }
 }
