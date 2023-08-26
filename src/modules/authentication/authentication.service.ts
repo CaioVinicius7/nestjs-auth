@@ -36,22 +36,11 @@ export class AuthenticationService {
 
     const payload = {
       sub: user._id,
-      user: {
-        id: user._id,
-        name: user.name,
-        username: user.username
-      }
+      name: user.name,
+      username: user.username
     };
 
-    console.log("🚀 ~ Aqui");
-    console.log("🚀 ~ ENV => ", process.env.JWT_SECRET);
-
     const accessToken = await this.jwtService.signAsync(payload);
-
-    console.log(
-      "🚀 ~ file: authentication.service.ts:49 ~ AuthenticationService ~ signIn ~ accessToken:",
-      accessToken
-    );
 
     return {
       accessToken
