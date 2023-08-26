@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 
 import { AuthenticationModule } from "./modules/authentication/authentication.module";
+import { ProductsModule } from "./modules/products/products.module";
 import { UsersModule } from "./modules/users/users.module";
 
 @Module({
@@ -12,7 +13,8 @@ import { UsersModule } from "./modules/users/users.module";
     }),
     MongooseModule.forRoot(process.env.MONGODB_CONNECTION_URL),
     AuthenticationModule,
-    UsersModule
+    UsersModule,
+    ProductsModule
   ],
   controllers: [],
   providers: []
