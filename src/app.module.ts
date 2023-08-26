@@ -2,8 +2,8 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 
-import { AuthenticationModule } from "./authentication/authentication.module";
-import { UsersModule } from "./users/users.module";
+import { AuthenticationModule } from "./modules/authentication/authentication.module";
+import { UsersModule } from "./modules/users/users.module";
 
 @Module({
   imports: [
