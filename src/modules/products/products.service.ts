@@ -48,4 +48,12 @@ export class ProductsService {
       product
     };
   }
+
+  async listAll() {
+    const products = await this.productModel.find();
+
+    return {
+      products
+    };
+  }
 }

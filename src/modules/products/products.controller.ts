@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 
 import { Role, Roles } from "../../decorators/roles.decorator";
 import type { CreateProductDTO } from "./dto/create-product.dto";
@@ -20,5 +20,11 @@ export class ProductsController {
       price,
       quantity
     });
+  }
+
+  @Get()
+  @Roles(Role.USER, Role.ADMIN)
+  async listAll() {
+    return this.productsService.listAll();
   }
 }
