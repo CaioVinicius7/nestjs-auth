@@ -5,11 +5,10 @@ import {
   HttpStatus,
   Param,
   Post,
-  Put,
-  UseGuards
+  Put
 } from "@nestjs/common";
 
-import { AuthGuard } from "../../infra/providers/auth-guard.provider";
+import { Auth } from "../../decorators/auth.decorator";
 import type { CreateUserDTO } from "./dto/create-user.dto";
 import type { UpdateRolesDTO } from "./dto/update-roles.dto";
 import { UsersService } from "./users.service";
@@ -29,7 +28,7 @@ export class UsersController {
 
   @Put("/:userId/roles")
   @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(AuthGuard)
+  @Auth()
   async updateRoles(
     @Param("userId") userId: string,
     @Body() { roles }: UpdateRolesDTO
