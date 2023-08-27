@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 
-import { Role, Roles } from "../../decorators/roles.decorator";
+import { Auth } from "../../decorators/auth.decorator";
+import { Role } from "../../decorators/roles.decorator";
 import type { CreateProductDTO } from "./dto/create-product.dto";
 import { ProductsService } from "./products.service";
 
@@ -9,7 +10,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @Roles(Role.ADMIN)
+  @Auth(Role.ADMIN)
   async create(
     @Body() { name, description, code, price, quantity }: CreateProductDTO
   ) {
@@ -23,7 +24,7 @@ export class ProductsController {
   }
 
   @Get()
-  @Roles(Role.USER, Role.ADMIN)
+  @Auth(Role.USER, Role.ADMIN)
   async listAll() {
     return this.productsService.listAll();
   }
